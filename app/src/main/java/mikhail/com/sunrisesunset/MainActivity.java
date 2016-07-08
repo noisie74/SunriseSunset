@@ -8,7 +8,7 @@ import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.format.DateFormat;
 import android.widget.TextView;
 
 import com.luckycatlabs.sunrisesunset.SunriseSunsetCalculator;
@@ -38,19 +38,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        getLocation();
+        checkForLocationEnabled();
         getSunriseSunsetCalculator();
         getSunsetandSunrise();
+        getTodaysDate();
     }
 
     public void getSunriseSunsetCalculator() {
 
-//        LocationManager lm  = (LocationManager) getSystemService(LOCATION_SERVICE);
-//
-//        if(!lm.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
-//                !lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-//
-//        }
         Location location = new Location("39.9522222", "-75.1641667");
         sunriseSunsetCalculator = new SunriseSunsetCalculator(location, "America/New_York");
 
@@ -62,11 +57,10 @@ public class MainActivity extends AppCompatActivity {
         String officialSunset = sunriseSunsetCalculator.getOfficialSunsetForDate(Calendar.getInstance());
         mSunrise.setText("Sunrise today: " + officialSunrise.toString());
         mSunset.setText("Sunset today: " + officialSunset);
-//        Log.d("MainActivity","Sunrise" + officialSunrise.toString());
 
     }
 
-    public void getLocation(){
+    public void checkForLocationEnabled(){
 
         LocationManager lm = (LocationManager) getSystemService(LOCATION_SERVICE);
         if(!lm.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
@@ -86,5 +80,12 @@ public class MainActivity extends AppCompatActivity {
             alertDialog.setCanceledOnTouchOutside(false);
             alertDialog.show();
         }
+    }
+
+    public void getTodaysDate(){
+
+        final Calendar calendar = Calendar.getInstance();
+        mDate.setText("Today is: " + DateFormat.getDateFormat(this).format(calendar.getTime()));
+
     }
 }
