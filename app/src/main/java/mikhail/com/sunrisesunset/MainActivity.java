@@ -46,36 +46,28 @@ public class MainActivity extends AppCompatActivity implements
     public LocationManager mLocationManager;
 
 
-    //    @BindView(R.id.date)
-//    TextView mDate;
-//    @BindView(R.id.location)
-//    TextView mLocation;
-//    @BindView(R.id.sunrise)
-//    TextView mSunrise;
-//    @BindView(R.id.sunset)
-//    TextView mSunset;
-//    @BindView(R.id.button)
-    Button getLocationButton;
-//    GoogleMap map;
-
+    @BindView(R.id.date)
+    TextView mDate;
+    @BindView(R.id.location)
     TextView mLocation;
+    @BindView(R.id.sunrise)
+    TextView mSunrise;
+    @BindView(R.id.sunset)
+    TextView mSunset;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        ButterKnife.bind(this);
+        ButterKnife.bind(this);
 
-
-        mLocation = (TextView) findViewById(R.id.location);
-        getLocationButton = (Button) findViewById(R.id.button);
 
         connectGoogleApiClient();
-//        checkForLocationEnabled();
+        checkForLocationEnabled();
         getSunriseSunsetCalculator();
         getSunsetandSunrise();
         getTodaysDate();
-        clickButton();
 
     }
 
@@ -90,37 +82,37 @@ public class MainActivity extends AppCompatActivity implements
     public void getSunsetandSunrise() {
         String officialSunrise = sunriseSunsetCalculator.getOfficialSunriseForDate(Calendar.getInstance());
         String officialSunset = sunriseSunsetCalculator.getOfficialSunsetForDate(Calendar.getInstance());
-//        mSunrise.setText("Sunrise today: " + officialSunrise.toString());
-//        mSunset.setText("Sunset today: " + officialSunset);
+        mSunrise.setText("Sunrise today: " + officialSunrise.toString());
+        mSunset.setText("Sunset today: " + officialSunset);
 
     }
 
-//    public void checkForLocationEnabled() {
-//
-//        LocationManager lm = (LocationManager) getSystemService(LOCATION_SERVICE);
-//        if (!lm.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
-//                !lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-//            // Build the alert dialog
-//            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//            builder.setTitle("Location Services Not Active");
-//            builder.setMessage("Please enable Location Services and GPS");
-//            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//                public void onClick(DialogInterface dialogInterface, int i) {
-//                    // Show location settings when the user acknowledges the alert dialog
-//                    Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-//                    startActivity(intent);
-//                }
-//            });
-//            Dialog alertDialog = builder.create();
-//            alertDialog.setCanceledOnTouchOutside(false);
-//            alertDialog.show();
-//        }
-//    }
+    public void checkForLocationEnabled() {
+
+        LocationManager lm = (LocationManager) getSystemService(LOCATION_SERVICE);
+        if (!lm.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
+                !lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+            // Build the alert dialog
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Location Services Not Active");
+            builder.setMessage("Please enable Location Services and GPS");
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    // Show location settings when the user acknowledges the alert dialog
+                    Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivity(intent);
+                }
+            });
+            Dialog alertDialog = builder.create();
+            alertDialog.setCanceledOnTouchOutside(false);
+            alertDialog.show();
+        }
+    }
 
     public void getTodaysDate() {
 
         final Calendar calendar = Calendar.getInstance();
-//        mDate.setText("Today is: " + DateFormat.getDateFormat(this).format(calendar.getTime()));
+        mDate.setText("Today is: " + DateFormat.getDateFormat(this).format(calendar.getTime()));
 
     }
 
@@ -160,18 +152,6 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
-    public void clickButton(){
-        getLocationButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mLocation.setText("Your location: " + String.valueOf(mLastLocation.getLatitude())
-                        + String.valueOf(mLastLocation.getLongitude()));
-                Log.d("MainActivity", "Button clicked!");
-
-            }
-        });
-    }
-
 
     @Override
 
@@ -185,22 +165,5 @@ public class MainActivity extends AppCompatActivity implements
 
     }
 
-
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//
-//        if (requestCode == MY_LOCATION_REQUEST_CODE) {
-//            if (permissions.length == 1 &&
-//                    permissions[0] == Manifest.permission.ACCESS_FINE_LOCATION &&
-//                    grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager
-//                        .PERMISSION_GRANTED)
-//                    clickButton();
-//            } else {
-//                Toast.makeText(MainActivity.this, "No location available!", Toast.LENGTH_SHORT).show();
-//            }
-//        }
-//    }
 
 }
