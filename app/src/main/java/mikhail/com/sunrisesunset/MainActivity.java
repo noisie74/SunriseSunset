@@ -5,6 +5,8 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.LocationManager;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -32,6 +34,8 @@ import com.luckycatlabs.sunrisesunset.SunriseSunsetCalculator;
 import com.luckycatlabs.sunrisesunset.dto.Location;
 
 import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
 import java.util.TimeZone;
 
 import butterknife.BindView;
@@ -73,11 +77,12 @@ public class MainActivity extends AppCompatActivity implements
 
         mLatitude = String.valueOf(mLastLocation.getLatitude());
         mLongitude = String.valueOf(mLastLocation.getLongitude());
-        Location location = new Location(mLatitude,mLongitude);
+        Location location = new Location(mLatitude, mLongitude);
         sunriseSunsetCalculator = new SunriseSunsetCalculator(location, TimeZone.getDefault());
 
-         Log.d("MainActivity", TimeZone.getDefault().getDisplayName());
+        Log.d("MainActivity", TimeZone.getDefault().getDisplayName());
     }
+
 
     public void getSunsetandSunrise() {
 
