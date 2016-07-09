@@ -32,6 +32,7 @@ import com.luckycatlabs.sunrisesunset.SunriseSunsetCalculator;
 import com.luckycatlabs.sunrisesunset.dto.Location;
 
 import java.util.Calendar;
+import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,8 +43,7 @@ public class MainActivity extends AppCompatActivity implements
     SunriseSunsetCalculator sunriseSunsetCalculator;
     GoogleApiClient mGoogleApiClient;
     android.location.Location mLastLocation;
-    int MY_LOCATION_REQUEST_CODE = 1;
-    public LocationManager mLocationManager;
+    String mLatitude, mLongitude;
 
 
     @BindView(R.id.date)
@@ -62,28 +62,31 @@ public class MainActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-
         connectGoogleApiClient();
         checkForLocationEnabled();
-        getSunriseSunsetCalculator();
-        getSunsetandSunrise();
         getTodaysDate();
 
     }
 
     public void getSunriseSunsetCalculator() {
 
-        Location location = new Location("39.9522222", "-75.1641667");
-        sunriseSunsetCalculator = new SunriseSunsetCalculator(location, "America/New_York");
 
+        mLatitude = String.valueOf(mLastLocation.getLatitude());
+        mLongitude = String.valueOf(mLastLocation.getLongitude());
+        Location location = new Location(mLatitude,mLongitude);
+        sunriseSunsetCalculator = new SunriseSunsetCalculator(location, TimeZone.getDefault());
 
+         Log.d("MainActivity", TimeZone.getDefault().getDisplayName());
     }
 
     public void getSunsetandSunrise() {
+
+
         String officialSunrise = sunriseSunsetCalculator.getOfficialSunriseForDate(Calendar.getInstance());
         String officialSunset = sunriseSunsetCalculator.getOfficialSunsetForDate(Calendar.getInstance());
         mSunrise.setText("Sunrise today: " + officialSunrise.toString());
         mSunset.setText("Sunset today: " + officialSunset);
+
 
     }
 
@@ -145,6 +148,10 @@ public class MainActivity extends AppCompatActivity implements
                 .PERMISSION_GRANTED) {
             mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
             if (mLastLocation != null) {
+
+                getSunriseSunsetCalculator();
+                getSunsetandSunrise();
+
                 mLocation.setText("Your location: " + String.valueOf(mLastLocation.getLatitude())
                         + String.valueOf(mLastLocation.getLongitude()));
 
