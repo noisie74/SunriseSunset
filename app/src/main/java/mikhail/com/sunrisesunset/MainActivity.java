@@ -92,12 +92,10 @@ public class MainActivity extends AppCompatActivity implements
 
     public void getSunsetandSunrise() {
 
-
         String officialSunrise = sunriseSunsetCalculator.getOfficialSunriseForDate(Calendar.getInstance());
         String officialSunset = sunriseSunsetCalculator.getOfficialSunsetForDate(Calendar.getInstance());
         mSunrise.setText("Sunrise today: " + officialSunrise.toString());
         mSunset.setText("Sunset today: " + officialSunset);
-
 
     }
 
@@ -218,17 +216,9 @@ public class MainActivity extends AppCompatActivity implements
                 String addressText = "Your location: "
                         + address.getLocality().toString()
                         + ", "
-                        + address.getAdminArea().toString()
+                        + String.format(address.getAdminArea().substring(0,2)).toUpperCase()
                         + ", "
                         + address.getCountryName().toString();
-//                addressText = String.format("%s, %s");
-
-
-//                if (address.getMaxAddressLineIndex() > 0) {
-//
-//                    address.getAddressLine(0);
-//                    address.getLocality();
-//                }
 
                 return addressText;
 
