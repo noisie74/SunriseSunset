@@ -2,10 +2,14 @@ package mikhail.com.sunrisesunset;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -31,7 +35,13 @@ import com.google.android.gms.maps.GoogleMap;
 import com.luckycatlabs.sunrisesunset.SunriseSunsetCalculator;
 import com.luckycatlabs.sunrisesunset.dto.Location;
 
+import java.io.IOException;
 import java.util.Calendar;
+
+import android.location.Address;
+
+import java.util.List;
+import java.util.Locale;
 import java.util.TimeZone;
 
 import butterknife.BindView;
@@ -73,20 +83,19 @@ public class MainActivity extends AppCompatActivity implements
 
         mLatitude = String.valueOf(mLastLocation.getLatitude());
         mLongitude = String.valueOf(mLastLocation.getLongitude());
-        Location location = new Location(mLatitude,mLongitude);
+        Location location = new Location(mLatitude, mLongitude);
         sunriseSunsetCalculator = new SunriseSunsetCalculator(location, TimeZone.getDefault());
 
-         Log.d("MainActivity", TimeZone.getDefault().getDisplayName());
+        Log.d("MainActivity", TimeZone.getDefault().getDisplayName());
     }
 
-    public void getSunsetandSunrise() {
 
+    public void getSunsetAndSunrise() {
 
         String officialSunrise = sunriseSunsetCalculator.getOfficialSunriseForDate(Calendar.getInstance());
         String officialSunset = sunriseSunsetCalculator.getOfficialSunsetForDate(Calendar.getInstance());
-        mSunrise.setText("Sunrise today: " + officialSunrise.toString());
+        mSunrise.setText("Sunrise today: " + officialSunrise);
         mSunset.setText("Sunset today: " + officialSunset);
-
 
     }
 
@@ -115,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements
     public void getTodaysDate() {
 
         final Calendar calendar = Calendar.getInstance();
-        mDate.setText("Today is: " + DateFormat.getDateFormat(this).format(calendar.getTime()));
+        mDate.setText("Today is: " + DateFormat.getLongDateFormat(this).format(calendar.getTime()));
 
     }
 
@@ -150,15 +159,74 @@ public class MainActivity extends AppCompatActivity implements
             if (mLastLocation != null) {
 
                 getSunriseSunsetCalculator();
-                getSunsetandSunrise();
+                getSunsetAndSunrise();
 
-                mLocation.setText("Your location: " + String.valueOf(mLastLocation.getLatitude())
-                        + String.valueOf(mLastLocation.getLongitude()));
+//                mLocation.setText("Your location: " + String.valueOf(mLastLocation.getLatitude())
+//                        + String.valueOf(mLastLocation.getLongitude()));
 
+
+                (new GetAddressTask(this)).execute(mLastLocation);
             }
         }
     }
 
+
+    private class GetAddressTask extends AsyncTask<android.location.Location, Void, String> {
+
+        Context mContext;
+
+        public GetAddressTask(Context context) {
+            super();
+            mContext = context;
+        }
+
+        @Override
+        protected void onPostExecute(String address) {
+            // Display the current address in the UI
+            mLocation.setText(address);
+        }
+
+        @Override
+        protected String doInBackground(android.location.Location... params) {
+
+            Geocoder geocoder = new Geocoder(mContext, Locale.getDefault());
+            android.location.Location mLocation = params[0];
+
+            List<Address> addresses;
+            try {
+                addresses = geocoder.getFromLocation(mLocation.getLatitude(), mLocation.getLongitude(), 1);
+            } catch (IOException e1) {
+                e1.printStackTrace();
+                return ("IO Exception trying to get address");
+            } catch (IllegalArgumentException e2) {
+                // Error message to post in the log
+                String errorString = "Illegal arguments " +
+                        Double.toString(mLocation.getLatitude()) + " , " +
+                        Double.toString(mLocation.getLongitude()) + " passed to address service";
+                Log.e("MainActivity", errorString);
+                e2.printStackTrace();
+                return errorString;
+            }
+            if (addresses != null && addresses.size() > 0) {
+                Address address = addresses.get(0);
+
+                address.getLocality();
+                address.getCountryName();
+
+                String addressText = "Your location: "
+                        + address.getLocality().toString()
+                        + ", "
+                        + String.format(address.getAdminArea().substring(0,2)).toUpperCase()
+                        + ", "
+                        + address.getCountryName().toString();
+
+                return addressText;
+
+            } else
+
+                return "No address found";
+        }
+    }
 
     @Override
 

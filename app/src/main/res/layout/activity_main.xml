@@ -12,6 +12,9 @@
 
 
     <AnalogClock
+        android:dial="@drawable/clock_dial"
+        android:hand_hour="@drawable/clock_hour_hand"
+        android:hand_minute="@drawable/clock_minute_hand"
         android:id="@+id/clock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
