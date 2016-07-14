@@ -221,7 +221,7 @@ public class MainActivity extends AppCompatActivity implements
                 String addressText = "Your location: "
                         + address.getLocality().toString()
                         + ", "
-                        + String.format(address.getAdminArea().substring(0,2)).toUpperCase()
+                        + String.format(address.getAdminArea().substring(0, 2)).toUpperCase()
                         + ", "
                         + address.getCountryName().toString();
 
@@ -234,7 +234,6 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-
     public void onConnectionSuspended(int i) {
 
     }
