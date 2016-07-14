@@ -90,11 +90,11 @@ public class MainActivity extends AppCompatActivity implements
     }
 
 
-    public void getSunsetandSunrise() {
+    public void getSunsetAndSunrise() {
 
         String officialSunrise = sunriseSunsetCalculator.getOfficialSunriseForDate(Calendar.getInstance());
         String officialSunset = sunriseSunsetCalculator.getOfficialSunsetForDate(Calendar.getInstance());
-        mSunrise.setText("Sunrise today: " + officialSunrise.toString());
+        mSunrise.setText("Sunrise today: " + officialSunrise);
         mSunset.setText("Sunset today: " + officialSunset);
 
     }
@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements
     public void getTodaysDate() {
 
         final Calendar calendar = Calendar.getInstance();
-        mDate.setText("Today is: " + DateFormat.getDateFormat(this).format(calendar.getTime()));
+        mDate.setText("Today is: " + DateFormat.getLongDateFormat(this).format(calendar.getTime()));
 
     }
 
@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements
             if (mLastLocation != null) {
 
                 getSunriseSunsetCalculator();
-                getSunsetandSunrise();
+                getSunsetAndSunrise();
 
 //                mLocation.setText("Your location: " + String.valueOf(mLastLocation.getLatitude())
 //                        + String.valueOf(mLastLocation.getLongitude()));
