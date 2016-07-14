@@ -74,8 +74,13 @@ public class MainActivity extends AppCompatActivity implements
 
         connectGoogleApiClient();
         checkForLocationEnabled();
-        getTodaysDate();
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getTodaysDate();
     }
 
     public void getSunriseSunsetCalculator() {
