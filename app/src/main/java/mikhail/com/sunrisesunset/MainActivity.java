@@ -139,6 +139,12 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getTodaysDate();
+    }
+
     protected void onStart() {
         mGoogleApiClient.connect();
         super.onStart();
