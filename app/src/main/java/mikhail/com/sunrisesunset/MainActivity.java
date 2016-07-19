@@ -5,7 +5,9 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.GradientDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.LocationManager;
@@ -14,6 +16,9 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +27,8 @@ import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,7 +45,6 @@ import com.luckycatlabs.sunrisesunset.dto.Location;
 import java.io.IOException;
 import java.util.Calendar;
 
-import android.location.Address;
 
 import java.util.List;
 import java.util.Locale;
@@ -55,7 +61,6 @@ public class MainActivity extends AppCompatActivity implements
     android.location.Location mLastLocation;
     String mLatitude, mLongitude;
 
-
     @BindView(R.id.date)
     TextView mDate;
     @BindView(R.id.location)
@@ -64,6 +69,10 @@ public class MainActivity extends AppCompatActivity implements
     TextView mSunrise;
     @BindView(R.id.sunset)
     TextView mSunset;
+    @BindView(R.id.button_sunset)
+    Button buttonSunset;
+    @BindView(R.id.frag_container)
+    FrameLayout frameLayout;
 
 
     @Override
@@ -71,11 +80,19 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+        setSunsetButton();
         connectGoogleApiClient();
         checkForLocationEnabled();
-        getTodaysDate();
 
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getTodaysDate();
     }
 
     public void getSunriseSunsetCalculator() {
@@ -222,7 +239,7 @@ public class MainActivity extends AppCompatActivity implements
                 String addressText = "Your location: "
                         + address.getLocality().toString()
                         + ", "
-                        + String.format(address.getAdminArea().substring(0,2)).toUpperCase()
+                        + String.format(address.getAdminArea().substring(0, 2)).toUpperCase()
                         + ", "
                         + address.getCountryName().toString();
 
@@ -235,7 +252,6 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-
     public void onConnectionSuspended(int i) {
 
     }
@@ -247,4 +263,30 @@ public class MainActivity extends AppCompatActivity implements
     }
 
 
+    public void setSunsetButton() {
+
+        buttonSunset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("MainActivity", "clicked");
+                frameLayout.setVisibility(View.VISIBLE);
+
+                SunsetFragment sunsetFragment = new SunsetFragment();
+                FragmentManager fm = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                fragmentTransaction.add(R.id.frag_container, sunsetFragment, "TAG");
+                fragmentTransaction.addToBackStack("TAG");
+                fragmentTransaction.commit();
+
+
+            }
+        });
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        frameLayout.setVisibility(View.GONE);
+        super.onBackPressed();
+    }
 }
