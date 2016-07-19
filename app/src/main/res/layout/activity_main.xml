@@ -1,52 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="@android:color/holo_orange_light"
     android:layout_height="match_parent"
-    android:paddingBottom="16dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingTop="16dp"
     android:orientation="vertical"
     android:weightSum="1">
 
 
+    <FrameLayout
+        android:id="@+id/frag_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+    </FrameLayout>
+
+
     <AnalogClock
-        android:dial="@drawable/clock_dial"
-        android:hand_hour="@drawable/clock_hour_hand"
-        android:hand_minute="@drawable/clock_minute_hand"
         android:id="@+id/clock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_weight="0.75" />
+        android:layout_weight="0.75"
+        android:dial="@drawable/clock_dial"
+        android:hand_hour="@drawable/clock_hour_hand"
+        android:hand_minute="@drawable/clock_minute_hand" />
 
 
     <TextView
         android:id="@+id/date"
-        android:layout_marginLeft="8dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp" />
 
     <TextView
-        android:layout_marginLeft="8dp"
-        android:paddingTop="8dp"
         android:id="@+id/location"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:paddingTop="8dp" />
 
     <TextView
         android:id="@+id/sunrise"
-        android:layout_marginLeft="8dp"
-        android:paddingTop="8dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:paddingTop="8dp" />
 
     <TextView
         android:id="@+id/sunset"
-        android:layout_marginLeft="8dp"
-        android:paddingTop="8dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:paddingTop="8dp" />
+
+    <Button
+        android:id="@+id/button_sunset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@android:color/black"
+        android:text="Sunset"
+        android:textColor="@android:color/white" />
+
 
 </LinearLayout>

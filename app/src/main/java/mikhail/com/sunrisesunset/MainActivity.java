@@ -14,6 +14,9 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +25,8 @@ import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,7 +60,6 @@ public class MainActivity extends AppCompatActivity implements
     android.location.Location mLastLocation;
     String mLatitude, mLongitude;
 
-
     @BindView(R.id.date)
     TextView mDate;
     @BindView(R.id.location)
@@ -64,6 +68,10 @@ public class MainActivity extends AppCompatActivity implements
     TextView mSunrise;
     @BindView(R.id.sunset)
     TextView mSunset;
+    @BindView(R.id.button_sunset)
+    Button buttonSunset;
+    @BindView(R.id.frag_container)
+    FrameLayout frameLayout;
 
 
     @Override
@@ -72,8 +80,12 @@ public class MainActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+//        frameLayout =(FrameLayout) findViewById(R.id.frag_container);
+
+        setSunsetButton();
         connectGoogleApiClient();
         checkForLocationEnabled();
+
 
     }
 
@@ -245,4 +257,30 @@ public class MainActivity extends AppCompatActivity implements
     }
 
 
+    public void setSunsetButton() {
+
+        buttonSunset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("TAG", "clicked");
+                frameLayout.setVisibility(View.VISIBLE);
+
+                SunsetFragment sunsetFragment = new SunsetFragment();
+                FragmentManager fm = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                fragmentTransaction.add(R.id.frag_container, sunsetFragment, "TAG");
+                fragmentTransaction.addToBackStack("TAG");
+                fragmentTransaction.commit();
+
+
+            }
+        });
+
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        super.onBackPressed();
+    }
 }
