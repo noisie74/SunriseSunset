@@ -31,13 +31,11 @@ public class SunsetFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_sunset, container, false);
         mSceneView = view;
         mSunView = view.findViewById(R.id.sun);
         mSkyView = view.findViewById(R.id.sky);
 
-        Resources resources = getResources();
         mBlueSkyColor = ContextCompat.getColor(getContext(), R.color.blue_sky);
         mSunsetSkyColor = ContextCompat.getColor(getContext(), R.color.sunset_sky);
         mNightSkyColor = ContextCompat.getColor(getContext(), R.color.night_sky);

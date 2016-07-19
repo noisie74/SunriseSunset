@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/sunset"
     android:weightSum="1">
 
 
@@ -28,12 +29,16 @@
 
     <TextView
         android:id="@+id/date"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp" />
 
     <TextView
         android:id="@+id/location"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -41,6 +46,8 @@
 
     <TextView
         android:id="@+id/sunrise"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -48,6 +55,8 @@
 
     <TextView
         android:id="@+id/sunset"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -55,12 +64,13 @@
 
     <Button
         android:id="@+id/button_sunset"
+        android:text="@string/watch_sunset_now"
+        android:background="@android:color/transparent"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:background="@android:color/black"
-        android:text="Sunset"
-        android:textColor="@android:color/white" />
+        android:layout_gravity="center_horizontal" />
 
 
 </LinearLayout>

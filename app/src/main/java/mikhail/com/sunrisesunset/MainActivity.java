@@ -5,7 +5,9 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.GradientDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.LocationManager;
@@ -43,7 +45,6 @@ import com.luckycatlabs.sunrisesunset.dto.Location;
 import java.io.IOException;
 import java.util.Calendar;
 
-import android.location.Address;
 
 import java.util.List;
 import java.util.Locale;
@@ -79,8 +80,7 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
-//        frameLayout =(FrameLayout) findViewById(R.id.frag_container);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         setSunsetButton();
         connectGoogleApiClient();
@@ -262,7 +262,7 @@ public class MainActivity extends AppCompatActivity implements
         buttonSunset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("TAG", "clicked");
+                Log.i("MainActivity", "clicked");
                 frameLayout.setVisibility(View.VISIBLE);
 
                 SunsetFragment sunsetFragment = new SunsetFragment();
@@ -280,7 +280,7 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onBackPressed() {
-
+        frameLayout.setVisibility(View.GONE);
         super.onBackPressed();
     }
 }
