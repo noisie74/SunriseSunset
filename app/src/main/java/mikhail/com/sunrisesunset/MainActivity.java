@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.GradientDrawable;
@@ -60,6 +61,8 @@ public class MainActivity extends AppCompatActivity implements
     GoogleApiClient mGoogleApiClient;
     android.location.Location mLastLocation;
     String mLatitude, mLongitude;
+    SharedPreferences mPrefs = null;
+
 
     @BindView(R.id.date)
     TextView mDate;
@@ -82,10 +85,11 @@ public class MainActivity extends AppCompatActivity implements
         ButterKnife.bind(this);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+
         setSunsetButton();
         connectGoogleApiClient();
         checkForLocationEnabled();
-
+        mPrefs = getSharedPreferences("SunriseSunset", MODE_PRIVATE);
 
 
     }
@@ -94,6 +98,13 @@ public class MainActivity extends AppCompatActivity implements
     protected void onResume() {
         super.onResume();
         getTodaysDate();
+
+        if (mPrefs.getBoolean("FirstTime", true)) {
+            Toast.makeText(MainActivity.this, getString(R.string.toast)
+                    + getString(R.string.location_enable),
+                    Toast.LENGTH_LONG).show();
+        }
+        mPrefs.edit().putBoolean("FirstTime", false).commit();
     }
 
     public void getSunriseSunsetCalculator() {
